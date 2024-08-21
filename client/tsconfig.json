@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ES2018",
+        "target": "es6",
         "module": "CommonJS",
         "jsx": "react",
         "strict": true,
@@ -18,7 +18,8 @@
         "resolveJsonModule": true,
         "allowJs": true,
         "baseUrl": "./",
-        "types": [],
+        "types": ["node","dotenv"],
+        "sourceMap": true, 
         "skipLibCheck": true,
         "paths": {
             "spoken": ["spoken/src"]

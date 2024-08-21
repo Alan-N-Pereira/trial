@@ -1,50 +1,50 @@
 import * as graphlib from './graphlib';
 
 export type GraphJsonView = {
-    edges: unknown,
-    nodes: unknown,
-    options: unknown,
+    edges: unknown;
+    nodes: unknown;
+    options: unknown;
     value: {
-        id: string,
-        impl: string,
-        lang: string, 
-        alias?: string,
-        priority?: string,
-        [key: string]: unknown
-    }
+        id: string;
+        impl: string;
+        lang: string;
+        alias?: string;
+        priority?: string;
+        [key: string]: unknown;
+    };
 };
 
 export type SpokenModule = {
-    id: string,
-    desc: string,
-    label: string,
-    grammar: Record<string, GraphJsonView[]>
+    id: string;
+    desc: string;
+    label: string;
+    grammar: Record<string, GraphJsonView[]>;
 };
 
 export type SpokenModules = {
-    modules: SpokenModule[],
-    normalizers: Record<string, (((lang: string) => Function))>,
+    modules: SpokenModule[];
+    normalizers: Record<string, (lang: string) => Function>;
     templates: Record<string, {
-        value: string,
-        examples: Record<string, string[]>,
-        defaultNormalizer?: string
-    }>,
+        value: string;
+        examples: Record<string, string[]>;
+        defaultNormalizer?: string;
+    }>;
     stopWords: Record<string, {
-        words: string[],
-        expressions: string[]
-    }>
+        words: string[];
+        expressions: string[];
+    }>;
 };
 
 export type Context = {
-    normalizers: Record<string, (((lang: string) => Function))>,
+    normalizers: Record<string, (lang: string) => Function>;
     templates: Record<string, {
-        value: string,
-        examples: Record<string, string[]>
-    }>,
+        value: string;
+        examples: Record<string, string[]>;
+    }>;
     stopWords: Record<string, {
-        words: string[],
-        expressions: string[]
-    }>
+        words: string[];
+        expressions: string[];
+    }>;
 };
 
 class Modules {
@@ -52,14 +52,14 @@ class Modules {
         modules: [],
         normalizers: {},
         templates: {},
-        stopWords: {}
+        stopWords: {},
     };
 
     async load(val?: SpokenModules) {
         this.spoken = await loadModules(val);
     }
 
-    findAutomataById(id: string, lang: string): (null | graphlib.Graph) {
+    findAutomataById(id: string, lang: string): graphlib.Graph | null {
         for (const mod of this.modules) {
             for (const graphJson of mod.grammar[lang]) {
                 if (graphJson.value.id === id) return graphlib.json.read(graphJson);
@@ -81,7 +81,7 @@ class Modules {
         return {
             templates: this.spoken.templates,
             normalizers: this.spoken.normalizers,
-            stopWords: this.spoken.stopWords
+            stopWords: this.spoken.stopWords,
         };
     }
 
@@ -90,7 +90,9 @@ class Modules {
     }
 
     normalizers(normalizer?: string, lang?: string) {
-        if (!lang || !normalizer || !this.spoken.normalizers[normalizer]) return (text: string) => text;
+        if (!lang || !normalizer || !this.spoken.normalizers[normalizer]) {
+            return (text: string) => text;
+        }
 
         return (text: string, ...args: any[]) => {
             try {
@@ -100,9 +102,8 @@ class Modules {
                 if (value == null) return null;
 
                 return value;
-            } catch(err) {
+            } catch (err) {
                 console.error(err);
-
                 return null;
             }
         };
@@ -114,29 +115,20 @@ async function loadModules(val?: SpokenModules): Promise<SpokenModules> {
 
     if (val != null) {
         json = val; // should not be allowing that!
-    } else if (typeof require === 'function' && require('fs')?.readFileSync !== undefined) {
-        const fs = require('fs');
-        const path = require('path');
-
-        json = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'grammar.json'), 'utf-8')) as SpokenModules;
-
-    } else if (typeof fetch === 'function' || typeof globalThis.fetch === 'function') {
-        try {
-            const r = await globalThis.fetch('/grammar.json');  // Adjust the URL as needed
-            const parsedJson = await r.json();
-            json = parsedJson as SpokenModules;  // Assert the type
-        } catch (error) {
-            console.error('Failed to load grammar.json', error);
-            return json; // return empty structure on failure
-        }
     } else {
         try {
-            const nodeFetch = await import('node-fetch');
-            const r = await nodeFetch.default('/grammar.json');  // Adjust the URL as needed
-            const parsedJson = await r.json();
-            json = parsedJson as SpokenModules;  // Assert the type
-        } catch (error) {
-            console.error('Failed to load grammar.json', error);
+            if (typeof window === 'undefined') {
+                // Node.js environment
+                const fs = await import('fs');
+                const path = await import('path');
+                json = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'grammar.json'), 'utf-8')) as SpokenModules;
+            } else {
+                // Browser environment
+                const response = await fetch('/grammar.json');
+                json = await response.json();
+            }
+        } catch (e) {
+            console.error('Failed to load grammar.json:', e);
             return json; // return empty structure on failure
         }
     }

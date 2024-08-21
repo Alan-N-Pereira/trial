@@ -77,5 +77,6 @@ class SpokenInterface {
     }
 }
 
-export default new SpokenInterface();
+const spokenInterface = new SpokenInterface();
+export default spokenInterface;
 

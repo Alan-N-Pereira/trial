@@ -7,8 +7,7 @@ if (typeof window === 'undefined') {
     throw new Error('fs module cannot be used in a browser environment');
 }
 const {
-    listArchives,
-    allRecognizablePhrases,
+    listArchives
 } = require('./build-utils.js')
 
 const { getExamples } = require('./examples/index')

@@ -1,5 +1,5 @@
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 
 module.exports = function override(config) {
   config.resolve.fallback = {
@@ -7,19 +7,19 @@ module.exports = function override(config) {
     path: require.resolve('path-browserify'),
     fs: false,
     buffer: require.resolve('buffer/'),
-    process: require.resolve('process/browser'), // Add this line to resolve the 'process' module
+    process: require.resolve('process/browser'),
   };
 
   config.plugins = (config.plugins || []).concat([
     new NodePolyfillPlugin(),
   ]);
 
-  config.externals = [
-    ...config.externals || [],
-    nodeExternals({
-      allowlist: [/^webpack/],
-    }),
-  ];
+  // config.externals = [
+  //   ...config.externals || [],
+  //   nodeExternals({
+  //     allowlist: [/^webpack/],
+  //   }),
+  // ];
 
   return config;
 };

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 import Spoken from 'spoken';
+import MyRecognizer from './voice-recognizer';
 import IpcRenderer from '../electron-ipc';
 import { GlobalContext } from '../global-context';
 

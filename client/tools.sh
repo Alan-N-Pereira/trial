@@ -12,15 +12,15 @@ rm -rf dist/*
 tsc
 
 # Ensure the destination directories exist
-mkdir -p dist/editors/default
-mkdir -p dist/resources
 mkdir -p dist/src
+mkdir -p dist/src/editors/default
+mkdir -p dist/src/resources
 
 # copy robot-python
-cp ./src/editors/default/*.py ./dist/editors/default || echo "No Python scripts found."
+cp ./src/editors/default/*.py ./dist/src/editors/default || echo "No Python scripts found."
 
 # copy icons
-cp -r icons ./dist/ || echo "No icons directory found."
+cp -r icons ./dist/src/ || echo "No icons directory found."
 
 # copy vscode extension from vscode extension folder
 rm -rf ./src/resources/*
@@ -39,7 +39,7 @@ else
 fi
 
 # copy extension file to resources folder
-cp -r ./src/resources/** ./dist/resources || echo "No resources found to copy."
+cp -r ./src/resources/** ./dist/src/resources || echo "No resources found to copy."
 
 # copy HTML files
 cp ./src/*.html ./dist/src || echo "No HTML files found."
@@ -54,7 +54,7 @@ else
     ENV=$1
 fi
 
-cp -r ./src/.env* ./dist || echo "No .env files found."
+cp -r ./src/.env* ./dist/src/ || echo "No .env files found."
 
 if [ $ENV = "prod" ]; then
     if test -f dist/.env.prod; then # check if the file .env.prod exists

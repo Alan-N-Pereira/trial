@@ -1,4 +1,8 @@
-function isDev() {
+import { net } from 'electron';
+import { readFileSync } from 'fs';
+import { join, resolve } from 'path';
+
+export function isDev() {
 	return (
 		process &&
 		process.mainModule &&
@@ -7,11 +11,10 @@ function isDev() {
 	);
 }
 
-const appVersion = require('../package.json').version;
+// Assuming the package.json file is in the root directory
+export const appVersion = JSON.parse(readFileSync(resolve(__dirname, '../package.json'), 'utf-8')).version;
 
-function tryAndGetGrammarFromNetwork(url) {
-	const { net } = require('electron');
-
+export function tryAndGetGrammarFromNetwork(url) {
 	return new Promise((res, rej) => {
 		const request = net.request(url + '/grammar.json');
 
@@ -39,14 +42,8 @@ function tryAndGetGrammarFromNetwork(url) {
 			});
 		});
 
-		request.on('error', (e) => res(null));
+		request.on('error', () => res(null));
 
 		request.end();
 	});
 }
-
-module.exports = {
-	isDev,
-	appVersion,
-	tryAndGetGrammarFromNetwork
-};

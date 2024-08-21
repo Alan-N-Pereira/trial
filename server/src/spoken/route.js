@@ -1,25 +1,41 @@
-const express = require('express');
-const Spoken = require('./index');
+import express from 'express';
+import getSpokenInstance from './index.js';
+
 const router = express.Router();
 
-router.get('/list', (req, res) => {
-	res.send(Spoken.list);
+router.get('/list', async (req, res) => {
+    try {
+        const Spoken = await getSpokenInstance();
+        res.send(Spoken.list());
+    } catch (error) {
+        res.status(500).send('Error initializing Spoken: ' + error.message);
+    }
 });
 
-router.get('/save', (req, res) => {
-	res.send(Spoken.list);
+router.get('/save', async (req, res) => {
+    try {
+        const Spoken = await getSpokenInstance();
+        res.send(Spoken.list());
+    } catch (error) {
+        res.status(500).send('Error initializing Spoken: ' + error.message);
+    }
 });
 
-router.get('/find-command', (req, res) => {
-	const { lang, text } = req.query;
+router.get('/find-command', async (req, res) => {
+    try {
+        const { lang, text } = req.query;
 
-	if (!lang || !text) return res.status(400).send('You should provide a phrase and the language of that phrase');
+        if (!lang || !text) return res.status(400).send('You should provide a phrase and the language of that phrase');
 
-	const result = Spoken.findComand({ text: req.query.text }, lang);
+        const Spoken = await getSpokenInstance();
+        const result = Spoken.findComand({ text: req.query.text }, lang);
 
-	if (result == null) return res.status(404).send('No matches found for phrase: "' + text + '"; ' + lang);
+        if (result == null) return res.status(404).send('No matches found for phrase: "' + text + '"; ' + lang);
 
-	res.send(result);
+        res.send(result);
+    } catch (error) {
+        res.status(500).send('Error processing command: ' + error.message);
+    }
 });
 
-module.exports = router;
+export default router;

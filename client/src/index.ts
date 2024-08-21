@@ -1,8 +1,15 @@
-require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
-
-import { app, BrowserWindow, ipcMain, screen, globalShortcut, dialog, session } from 'electron';
-import Spoken from 'spoken';
+import dotenv from 'dotenv';
 import path from 'path';
+
+// Convert __dirname to ES module equivalent
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+// Load the .env file using dotenv
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+import { app, BrowserWindow, ipcMain, screen, globalShortcut, dialog, session, shell } from 'electron';
+import Spoken from 'spoken';
 import { isDev, appVersion, tryAndGetGrammarFromNetwork } from './utils';
 import SpokenInterface from './spoken-interface';
 import EditorService from './editors/editor-service';
@@ -53,8 +60,8 @@ async function createWindow(): Promise<void> {
 		y: 50,
 		alwaysOnTop: true,
 		webPreferences: {
-			nodeIntegration: false,
-			contextIsolation: true,
+			nodeIntegration: true,
+			contextIsolation: false,
 			preload: path.resolve(__dirname, 'preload.js'),
 		},
 		icon: path.resolve(__dirname, 'icons', 'icon36x36.ico'),
@@ -64,22 +71,22 @@ async function createWindow(): Promise<void> {
 
 	window.webContents.on('new-window', function (e, url) {
 		e.preventDefault();
-		require('electron').shell.openExternal(url);
+		shell.openExternal(url);
 	});
 
 	try {
 		// Enforcing some headers required to access the API...
-		// const filter = { urls: [process.env.URL_FILTER as string] };
+		const filter = { urls: [process.env.URL_FILTER as string] };
 
-		// session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
-		// 	const headerName = process.env.SPEECH2CODE_HEADER_NAME as string;
-		// 	const headerValue = process.env.SPEECH2CODE_HEADER_VALUE as string;
+		session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
+			const headerName = process.env.SPEECH2CODE_HEADER_NAME as string;
+			const headerValue = process.env.SPEECH2CODE_HEADER_VALUE as string;
 
-		// 	details.requestHeaders[headerName] = headerValue;
-		// 	details.requestHeaders['Speech2Code-Electron-Client-Version'] = appVersion;
+			details.requestHeaders[headerName] = headerValue;
+			details.requestHeaders['Speech2Code-Electron-Client-Version'] = appVersion;
 
-		// 	callback({ requestHeaders: details.requestHeaders });
-		// });
+			callback({ requestHeaders: details.requestHeaders });
+		});
 
 		await Spoken.init(await tryAndGetGrammarFromNetwork(process.env.SERVICE_URL as string));
 

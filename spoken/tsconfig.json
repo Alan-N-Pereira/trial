@@ -6,7 +6,8 @@
         "jsx": "react",
         "strict": true,
         "pretty": true,
-        "outDir": "dist",
+        "outDir": "./dist",
+        "rootDir": "./src",
         /* Additional Checks */
         "noUnusedLocals": false,
         "noUnusedParameters": false,

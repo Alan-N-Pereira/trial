@@ -95,4 +95,5 @@ class CodeMirrorEditor implements SpokenEditor {
     }
 }
 
-export default new CodeMirrorEditor();
+const codeMirrorEditorInstance = new CodeMirrorEditor();
+export default codeMirrorEditorInstance;
