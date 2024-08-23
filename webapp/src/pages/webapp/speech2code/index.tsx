@@ -69,7 +69,7 @@ const Speech2Code = (props: {
         <div className={`speech2code-wrapper ${props.mode}`}>
             <div className="window">
                 <div className="handle top-bar">
-                    <div className="window-title">Speech2Code</div>
+                    <div className="window-title">./Voice2Code</div>
                     <div className="controls">
                         <div className={`control ${!props.closeModal ? 'disabled' : ''}`}>
                             <i

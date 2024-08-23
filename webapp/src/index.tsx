@@ -39,21 +39,6 @@ const NotFound: ComponentType<any> = () => {
 	return <h3>Error 404 - Cannot get {window.location.pathname}</h3>
 }
 
-/*const UnderConstruction: ComponentType<any> = () => {
-	return (
-		<React.Fragment>
-			<h2><a href="webapp">Go to demo page</a></h2>
-			<h3>🚧 Under construction 🚧 - Later!</h3>
-			<img
-				src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/rclfHtEuiHwu5EVtBKc4tPH6cex.jpg"
-				height="250"
-				title="Bob the Builder was arrested during the LAVA JATO operation :("
-				alt="Bob the Builder was arrested during the LAVA JATO operation :("
-			/>
-		</React.Fragment>
-	)
-}*/
-
 ReactDOM.render(
 	<React.StrictMode>
 		<OuterRouter />

@@ -16,13 +16,13 @@ export default React.memo(function Webapp(props: { lang: string }) {
                         <div>What is this website</div>
                     </div>
                     <p>
-                        Speech2Code is an desktop application that let's you control your favorite IDE using just voice commands, <br/>
+                        Voice2Code is an desktop application that let's you control your favorite IDE using just voice commands, <br/>
                         that means you can write programs using just your voice, without typing on the keyboard. It was developed <br/>
-                        as part of my undergraduate dissertation in Computer Science, in which I proposed and developed<br/> an assistive
+                        as part of my Masters dissertation in Computer Science, in which I proposed and developed<br/> an assistive
                         technology tool to help programmers suffering from Repetitive Strain Injury (RSI).
                     </p>
                     <p>
-                        This demo website allows you test Speech2Code in the browser without installing it
+                        This demo website allows you test Voice2Code in the browser without installing it
                         on your local machine.<br />This is possible because this entire application is developed in JavaScript.
                     </p>
                     <div className="main-title">
@@ -32,11 +32,6 @@ export default React.memo(function Webapp(props: { lang: string }) {
                         <div>Useful links</div>
                     </div>
                     <ul>
-                        <li>
-                            <a href="https://github.com/pedrooaugusto/speech-to-code/releases">
-                                Download Speech2Code Binaries
-                            </a>
-                        </li>
                         <li>
                             <a href="https://github.com/pedrooaugusto/speech-to-code/">Github</a>
                         </li>

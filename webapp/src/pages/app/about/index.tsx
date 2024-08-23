@@ -10,10 +10,10 @@ export default function About() {
                 </div>
                 <div className="body">
                     Speech2Code is an application developed by me, <a rel="noreferrer" href="https://github.com/pedrooaugusto" target="_blank">Pedro Augusto</a>,
-                    as part of my undergraduate thesis in computer science at UNICARIOCA university.
+                    as part of my Masters dissertation in computer science at Queen Mary University London.
                     The purpose of this application is to help programmers suffering from
                     RSI (repetitive strain injury) to continue exercising their main activity: programming.<br/><br/>
-                    If you speak portuguese you can read all about my <ThesisLink>dissertation here</ThesisLink>.<br/><br/>
+                    You can read all about my <ThesisLink>dissertation here</ThesisLink>.<br/><br/>
                     Big thanks to everyone involved in the development of the following open source projects ({'❤︎'}):
                     Graphviz, Visual Studio Code, Graphviz (DOT) for VSCode, Graphlib, Graphlib-DOT, @hpcc-js/wasm,
                     svg2img, jest and node-ipc.<br/><br/>

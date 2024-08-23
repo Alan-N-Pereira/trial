@@ -54,7 +54,6 @@ export default function Header(props: any) {
             </a>
             <div className="language">
                 <a href={process.env.PUBLIC_URL + "/en/" + page} className={lang === 'en-US' ? `selected` : ''}>en-US</a>&nbsp;/&nbsp;
-                <a href={process.env.PUBLIC_URL + "/pt/" + page} className={lang === 'pt-BR' ? `selected` : ''}>pt-BR</a>
                 <span className="help" data-tip="This website language" data-for="header">
                     <i className="fa fa-question-circle" />
                 </span>

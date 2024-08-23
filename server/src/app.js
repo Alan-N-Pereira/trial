@@ -8,7 +8,7 @@ import dotenv from 'dotenv'; // Import dotenv using ES module syntax
 // Define the configEnv function at the top of the file
 function configEnv() {
 	const local = path.resolve(path.dirname(''), '..', '.env.local');
-	const dev = path.resolve(path.dirname(''), '..', '.env');
+	const dev = path.resolve(path.dirname(''), '..', 'server', '.env');
 
 	const hasLocal = fs.existsSync(local);
 
@@ -36,6 +36,7 @@ app.get('/api/azure/token', async (req, res) => {
 	const speechKey = process.env.SPEECH_KEY;
 	const speechEndpoint = process.env.ENDPOINT;
 	const speechRegion = process.env.REGION;
+	
 	let customModel = undefined;
 
 	if (req.query.lang === 'en-US') {

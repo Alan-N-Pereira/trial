@@ -38,7 +38,7 @@ export default function GloablContext(props: { children: any, lang: string }) {
         changeProblem,
         changeLanguage,
         isMobile,
-        problem: concretize(state.problemIndex, state.language as 'en-US' | 'pt-BR'),
+        problem: concretize(state.problemIndex, state.language as 'en-US'),
     }), [state.language, state.problemIndex, changeLanguage, changeProblem, isMobile])
 
     return (
